@@ -16,6 +16,15 @@
 {%- if pillar_php_version is iterable and pillar_php_version is not string %}
   {%- for version in pillar_php_version %}
     {%- set conf_settings = odict(php.lookup.fpm.defaults) %}
+    {#- Same merge as the single-version branch: php:fpm:config:conf:settings
+        used to be ignored with several versions. #}
+    {%- for key, value in php.fpm.config.conf.get('settings', {}).items() %}
+      {%- if conf_settings[key] is defined and value is mapping %}
+        {%- do conf_settings[key].update(value) %}
+      {%- else %}
+        {%- do conf_settings.update({key: value}) %}
+      {%- endif %}
+    {%- endfor %}
     {%- set first_version = pillar_php_version[0]|string %}
     {%- set ini = php.lookup.fpm.ini|replace(first_version, version) %}
     {%- set conf = php.lookup.fpm.conf|replace(first_version, version) %}
@@ -49,7 +58,7 @@ php_fpm_conf_config_{{ version }}:
         - user: {{ php.lookup.fpm.user }}
         - group: {{ php.lookup.fpm.group }}
         - file_mode: 755
-        - make_dirs: True
+        - makedirs: True
   {%- endfor %}
 {%- else %}
 
@@ -76,5 +85,5 @@ php_fpm_conf_config:
         - user: {{ php.lookup.fpm.user }}
         - group: {{ php.lookup.fpm.group }}
         - file_mode: 755
-        - make_dirs: True
+        - makedirs: True
 {%- endif %}

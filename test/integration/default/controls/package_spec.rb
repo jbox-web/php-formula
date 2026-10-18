@@ -3,7 +3,7 @@
 control 'Php package' do
   title 'should be installed'
 
-  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def test_debian
     describe package('php-xdebug') do
       it { should be_installed }
@@ -22,7 +22,7 @@ control 'Php package' do
       end
     end
   end
-  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def test_redhat
     describe package('php') do

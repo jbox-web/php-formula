@@ -54,8 +54,8 @@ suites:
       state_top:
         base:
           '*':
+            - states.repo
             - php._mapdata
-            - php.repo
             - php.fpm.install
             - php.fpm.config
             - php.fpm.pools
@@ -68,6 +68,9 @@ suites:
               - php
       pillars_from_files:
         php.sls: test/salt/pillar/debian.sls
+      dependencies:
+        - name: states
+          path: ./test/salt
     verifier:
       inspec_tests:
         - path: test/integration/default

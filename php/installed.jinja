@@ -35,6 +35,9 @@
       {% endfor %}
     {% endif %}
 {% endif %}
+{# The version loops above re-add the first version's package; Salt rejects a
+   `pkgs` list with duplicated names (`SaltInvocationError`), so drop them. #}
+{% set pkgs = pkgs|unique|list %}
 
 {% if grains['os_family'] == "Debian" and (state == 'cli' or state == 'fpm' or state == 'php') %}
   {% set use_external_repo = salt['pillar.get']('php:use_external_repo', False) %}

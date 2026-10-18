@@ -316,7 +316,7 @@ values:
       gmp: php5.6-gmp
       hhvm: hhvm
       igbinary: php-igbinary
-      imagick: php-imagick
+      imagick: php5.6-imagick
       imap: php5.6-imap
       intl: php5.6-intl
       json: php5.6-json
